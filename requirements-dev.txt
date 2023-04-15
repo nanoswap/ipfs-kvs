@@ -10,6 +10,5 @@ Faker
 
 # for documentation / mkdocs
 mkdocs
-mkdocs-readthedocs
 mkdocstrings
 mkdocstrings-python
