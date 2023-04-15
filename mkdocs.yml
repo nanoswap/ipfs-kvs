@@ -1,6 +1,7 @@
 site_name: "ipfs-kvs"
 repo_url: https://github.com/nanoswap/ipfs-kvs
 edit_uri: blob/main/docs/
+site_url: https://nanoswap.github.io/ipfs-kvs
 
 nav:
   - Home: 'index.md'
@@ -14,9 +15,9 @@ nav:
 theme:
   name: "readthedocs"
 
-extra:
-  annotate:
-    json: [.s2]
-
 plugins:
-- mkdocstrings
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]  # search packages in the src folder

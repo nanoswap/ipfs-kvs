@@ -10,7 +10,6 @@ Faker
 
 # for documentation / mkdocs
 mkdocs
-mkdocs-material
+mkdocs-readthedocs
 mkdocstrings
 mkdocstrings-python
-mkdocs-gitbook

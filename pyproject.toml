@@ -7,3 +7,8 @@ source = ["ipfs-kvs"]
 
 [tool.coverage.report]
 show_missing = true
+
+[project]
+dependencies = [
+    "mkdocstrings-python",
+]
