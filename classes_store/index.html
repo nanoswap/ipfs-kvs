@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Store - ipfs-kvs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Store";
+        var mkdocs_page_input_path = "classes_store.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> ipfs-kvs
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Classes</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../classes_ipfs/">Ipfs</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Store</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#src.store.Store">Store</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#src.store.Store.__init__">__init__()</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.store.Store.read">read()</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.store.Store.add">add()</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.store.Store.delete">delete()</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.store.Store.to_dataframe">to_dataframe()</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.store.Store.query_indexes">query_indexes()</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#src.store.Store.query">query()</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../classes_index/">Index</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">About</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../LICENSE/">License</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">ipfs-kvs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Classes &raquo;</li>
+      <li>Store</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/nanoswap/ipfs-kvs/blob/main/docs/classes_store.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="store">Store</h1>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="src.store.Store" class="doc doc-heading">
+        <code>src.store.Store</code>
+
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+  <div class="doc doc-contents first">
+
+  
+      <p>A utility to read/write protobuf data to ipfs.</p>
+<p>Reading:</p>
+<pre><code class="language-py">    from nanoswap.ipfskvs import Store, Index, Ipfs
+    from myprotobuf_pb2 import MyProtobuf
+
+    store = Store(
+        Index.from_filename(&quot;myfile.txt&quot;),
+        ipfs=Ipfs(host=&quot;127.0.0.1&quot;, port=&quot;5001&quot;),
+        reader=MyProtobuf()
+    )
+    store.read()
+    print(store.reader)
+</code></pre>
+<p>Writing:</p>
+<pre><code class="language-py">    from nanoswap.ipfskvs import Store, Index, Ipfs
+    from myprotobuf_pb2 import MyProtobuf
+
+    store = Store(
+        Index.from_filename(&quot;myfile.txt&quot;),
+        ipfs=Ipfs(host=&quot;127.0.0.1&quot;, port=&quot;5001&quot;),
+        writer=MyProtobuf()
+    )
+    store.add()
+</code></pre>
+<p>Write with multiple indexes.
+Create a tiered file structure based on IDs.</p>
+<pre><code>    ├── fashion/
+        ├── designer_1.manufacturer_1
+        ├── designer_2.manufacturer_1
+            ├── deal_16.data
+        ├── designer_4.manufacturer_3
+            ├── deal_1.data
+            ├── deal_2.data
+</code></pre>
+<pre><code class="language-py">    from nanoswap.ipfskvs import Store, Index, Ipfs
+    from deal_pb2 import Deal
+
+    index = Index(
+        prefix=&quot;fashion&quot;,
+        index={
+            &quot;designer&quot;: str(uuid.uuid4()),
+            &quot;manufacturer&quot;: str(uuid.uuid4())
+        }, subindex=Index(
+            index={
+                &quot;deal&quot;:  str(uuid.uuid4())
+            }
+        )
+    )
+
+    data = Deal(type=Type.BUZZ, content=&quot;fizz&quot;)
+    store = Store(index=index, ipfs=Ipfs(), writer=data)
+    store.add()
+</code></pre>
+<p>Query the multiple indexes:
+Ex: get all deals with designer id "123"</p>
+<pre><code class="language-py">    from nanoswap.ipfskvs import Store, Index, Ipfs
+    from deal_pb2 import Deal
+
+    query_index = Index(
+        prefix=&quot;fashion&quot;,
+        index={
+            &quot;designer&quot;: &quot;123&quot;
+        }
+    )
+    reader = Deal()
+    store = Store.query(query_index, ipfs, reader)
+    print(reader)
+</code></pre>
+
+
+        <details class="quote">
+          <summary>Source code in <code>src/store.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Store</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A utility to read/write protobuf data to ipfs.</span>
+
+<span class="sd">    Reading:</span>
+<span class="sd">    ```py</span>
+<span class="sd">        from nanoswap.ipfskvs import Store, Index, Ipfs</span>
+<span class="sd">        from myprotobuf_pb2 import MyProtobuf</span>
+
+<span class="sd">        store = Store(</span>
+<span class="sd">            Index.from_filename(&quot;myfile.txt&quot;),</span>
+<span class="sd">            ipfs=Ipfs(host=&quot;127.0.0.1&quot;, port=&quot;5001&quot;),</span>
+<span class="sd">            reader=MyProtobuf()</span>
+<span class="sd">        )</span>
+<span class="sd">        store.read()</span>
+<span class="sd">        print(store.reader)</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    Writing:</span>
+<span class="sd">    ```py</span>
+<span class="sd">        from nanoswap.ipfskvs import Store, Index, Ipfs</span>
+<span class="sd">        from myprotobuf_pb2 import MyProtobuf</span>
+
+<span class="sd">        store = Store(</span>
+<span class="sd">            Index.from_filename(&quot;myfile.txt&quot;),</span>
+<span class="sd">            ipfs=Ipfs(host=&quot;127.0.0.1&quot;, port=&quot;5001&quot;),</span>
+<span class="sd">            writer=MyProtobuf()</span>
+<span class="sd">        )</span>
+<span class="sd">        store.add()</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    Write with multiple indexes.</span>
+<span class="sd">    Create a tiered file structure based on IDs.</span>
+<span class="sd">    ```</span>
+<span class="sd">        ├── fashion/</span>
+<span class="sd">            ├── designer_1.manufacturer_1</span>
+<span class="sd">            ├── designer_2.manufacturer_1</span>
+<span class="sd">                ├── deal_16.data</span>
+<span class="sd">            ├── designer_4.manufacturer_3</span>
+<span class="sd">                ├── deal_1.data</span>
+<span class="sd">                ├── deal_2.data</span>
+<span class="sd">    ```</span>
+<span class="sd">    ```py</span>
+<span class="sd">        from nanoswap.ipfskvs import Store, Index, Ipfs</span>
+<span class="sd">        from deal_pb2 import Deal</span>
+
+<span class="sd">        index = Index(</span>
+<span class="sd">            prefix=&quot;fashion&quot;,</span>
+<span class="sd">            index={</span>
+<span class="sd">                &quot;designer&quot;: str(uuid.uuid4()),</span>
+<span class="sd">                &quot;manufacturer&quot;: str(uuid.uuid4())</span>
+<span class="sd">            }, subindex=Index(</span>
+<span class="sd">                index={</span>
+<span class="sd">                    &quot;deal&quot;:  str(uuid.uuid4())</span>
+<span class="sd">                }</span>
+<span class="sd">            )</span>
+<span class="sd">        )</span>
+
+<span class="sd">        data = Deal(type=Type.BUZZ, content=&quot;fizz&quot;)</span>
+<span class="sd">        store = Store(index=index, ipfs=Ipfs(), writer=data)</span>
+<span class="sd">        store.add()</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    Query the multiple indexes:</span>
+<span class="sd">    Ex: get all deals with designer id &quot;123&quot;</span>
+<span class="sd">    ```py</span>
+<span class="sd">        from nanoswap.ipfskvs import Store, Index, Ipfs</span>
+<span class="sd">        from deal_pb2 import Deal</span>
+
+<span class="sd">        query_index = Index(</span>
+<span class="sd">            prefix=&quot;fashion&quot;,</span>
+<span class="sd">            index={</span>
+<span class="sd">                &quot;designer&quot;: &quot;123&quot;</span>
+<span class="sd">            }</span>
+<span class="sd">        )</span>
+<span class="sd">        reader = Deal()</span>
+<span class="sd">        store = Store.query(query_index, ipfs, reader)</span>
+<span class="sd">        print(reader)</span>
+<span class="sd">    ```</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">index</span><span class="p">:</span> <span class="n">Index</span>
+    <span class="n">writer</span><span class="p">:</span> <span class="n">Message</span>
+    <span class="n">reader</span><span class="p">:</span> <span class="n">Message</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span>
+            <span class="n">index</span><span class="p">:</span> <span class="n">Index</span><span class="p">,</span>
+            <span class="n">ipfs</span><span class="p">:</span> <span class="n">Ipfs</span><span class="p">,</span>
+            <span class="n">writer</span><span class="p">:</span> <span class="n">Message</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reader</span><span class="p">:</span> <span class="n">Message</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct a Store object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index (Index): An object representing the filepath</span>
+<span class="sd">            ipfs (Ipfs): The IPFS client</span>
+<span class="sd">            writer (Message, optional): The protobuf object with the</span>
+<span class="sd">                data to write to ipfs on `.write()`. Defaults to None.</span>
+<span class="sd">            reader (Message, optional): The protobuf object to populate</span>
+<span class="sd">                when reading the data from ipfs with `.read()`.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ipfs</span> <span class="o">=</span> <span class="n">ipfs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writer</span> <span class="o">=</span> <span class="n">writer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reader</span> <span class="o">=</span> <span class="n">reader</span>
+
+    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read the data from ipfs into `self.reader`.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            FileNotFoundError: An exception is raised if the file is</span>
+<span class="sd">                not found on IPFS.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_filename</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ipfs</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+                <span class="n">errno</span><span class="o">.</span><span class="n">ENOENT</span><span class="p">,</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="o">.</span><span class="n">ENOENT</span><span class="p">),</span>
+                <span class="n">filename</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write the protobuf data from `self.writer` to IPFS.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;For now, just use `add` and `delete`&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ipfs</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_filename</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">()</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add the protobuf data from `self.writer` to IPFS.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ipfs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_filename</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">()</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Only needed for local testing.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ipfs</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_filename</span><span class="p">())</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">to_dataframe</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Store</span><span class="p">],</span>
+            <span class="n">protobuf_parsers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FunctionType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a list of Store objects to a pandas dataframe.</span>
+
+<span class="sd">        The data for each Store must be read into memory beforehand;</span>
+<span class="sd">            using `store.read()`</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (List[Store]): The list of Store objects with Indexes</span>
+<span class="sd">            protobuf_parsers: (Dict[str, function]): key, value pair of</span>
+<span class="sd">                key (str) --&gt; pandas column name</span>
+<span class="sd">                value (function) --&gt; how to extract the value from the store</span>
+
+<span class="sd">                The function should accept a Store object and return Any</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pd.DataFrame: The index and subindex data</span>
+<span class="sd">                reformatted into a dataframe</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pandas_input</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">store</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+
+            <span class="c1"># add metadata</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_metadata</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">metadata</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pandas_input</span><span class="p">:</span>
+                    <span class="n">pandas_input</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+                <span class="n">pandas_input</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+            <span class="c1"># add top level data from the reader</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">protobuf_parsers</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pandas_input</span><span class="p">:</span>
+                    <span class="n">pandas_input</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+                <span class="n">pandas_input</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">protobuf_parsers</span><span class="p">[</span><span class="n">key</span><span class="p">](</span><span class="n">store</span><span class="p">))</span>
+
+        <span class="c1"># load the data into a pandas dataframe</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">pandas_input</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">query_indexes</span><span class="p">(</span><span class="n">query_index</span><span class="p">:</span> <span class="n">Index</span><span class="p">,</span> <span class="n">ipfs</span><span class="p">:</span> <span class="n">Ipfs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Index</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Query ipfs based on the `query_index` param.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query_index (Index): The Index object to use for the query.</span>
+<span class="sd">            ipfs (Ipfs): The IPFS client.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Index]: The matching filenames found in ipfs, loaded</span>
+<span class="sd">                into a list of Index objects</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># list the files in the directory</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">query_index</span><span class="o">.</span><span class="n">get_filename</span><span class="p">()</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">ipfs</span><span class="o">.</span><span class="n">list_files</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">filenames</span> <span class="o">=</span> <span class="p">[</span><span class="n">file</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;Entries&#39;</span><span class="p">]]</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+            <span class="c1"># Listing the same file twice indicates the base case</span>
+            <span class="c1">#   ex:</span>
+            <span class="c1">#       path = `ls dir1/dir2` --&gt; filenames = [&quot;filename&quot;]</span>
+            <span class="c1">#       path = `ls dir1/dir2/filename` --&gt; filenames = [&quot;filename&quot;]</span>
+            <span class="k">if</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">query_index</span><span class="p">]</span>
+
+            <span class="c1"># filter filenames based on the index</span>
+            <span class="n">full_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;//&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+            <span class="n">from_index</span> <span class="o">=</span> <span class="n">Index</span><span class="o">.</span><span class="n">from_filename</span><span class="p">(</span>
+                <span class="n">filename</span><span class="o">=</span><span class="n">full_filename</span><span class="p">,</span>
+                <span class="n">has_prefix</span><span class="o">=</span><span class="n">query_index</span><span class="o">.</span><span class="n">prefix</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">query_index</span><span class="o">.</span><span class="n">matches</span><span class="p">(</span><span class="n">from_index</span><span class="p">):</span>
+                <span class="n">result</span> <span class="o">+=</span> <span class="n">Store</span><span class="o">.</span><span class="n">query_indexes</span><span class="p">(</span><span class="n">from_index</span><span class="p">,</span> <span class="n">ipfs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span>
+            <span class="n">query_index</span><span class="p">:</span> <span class="n">Index</span><span class="p">,</span>
+            <span class="n">ipfs</span><span class="p">:</span> <span class="n">Ipfs</span><span class="p">,</span>
+            <span class="n">reader</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Store</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Query ipfs based on the `query_index` param.</span>
+
+<span class="sd">        Find the filenames matching the query_index.</span>
+<span class="sd">        Read the file contents from ipfs for each matching filename.</span>
+<span class="sd">        Parse the file contents into the reader protobuf object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query_index (Index): The Index object to use for the query.</span>
+<span class="sd">            ipfs (Ipfs): The IPFS client.</span>
+<span class="sd">            reader (Message): _description_</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            Iterator[Store]: The list of matching Store objects with</span>
+<span class="sd">                file content loaded into the `reader` attribute</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">response_index</span> <span class="ow">in</span> <span class="n">Store</span><span class="o">.</span><span class="n">query_indexes</span><span class="p">(</span><span class="n">query_index</span><span class="p">,</span> <span class="n">ipfs</span><span class="p">):</span>
+            <span class="n">store</span> <span class="o">=</span> <span class="n">Store</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">response_index</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="n">reader</span><span class="p">,</span> <span class="n">ipfs</span><span class="o">=</span><span class="n">ipfs</span><span class="p">)</span>
+            <span class="n">store</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="k">yield</span> <span class="n">store</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="src.store.Store.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">ipfs</span><span class="p">,</span> <span class="n">writer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Construct a Store object.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>index</code></td>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="src.index.Index" href="../classes_index/#src.index.Index">Index</a></code>
+          </td>
+          <td><p>An object representing the filepath</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>ipfs</code></td>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="src.ipfs.Ipfs" href="../classes_ipfs/#src.ipfs.Ipfs">Ipfs</a></code>
+          </td>
+          <td><p>The IPFS client</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>writer</code></td>
+          <td>
+                <code><span title="google.protobuf.message.Message">Message</span></code>
+          </td>
+          <td><p>The protobuf object with the
+data to write to ipfs on <code>.write()</code>. Defaults to None.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>reader</code></td>
+          <td>
+                <code><span title="google.protobuf.message.Message">Message</span></code>
+          </td>
+          <td><p>The protobuf object to populate
+when reading the data from ipfs with <code>.read()</code>.
+Defaults to None.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>src/store.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span>
+        <span class="n">index</span><span class="p">:</span> <span class="n">Index</span><span class="p">,</span>
+        <span class="n">ipfs</span><span class="p">:</span> <span class="n">Ipfs</span><span class="p">,</span>
+        <span class="n">writer</span><span class="p">:</span> <span class="n">Message</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">reader</span><span class="p">:</span> <span class="n">Message</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct a Store object.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        index (Index): An object representing the filepath</span>
+<span class="sd">        ipfs (Ipfs): The IPFS client</span>
+<span class="sd">        writer (Message, optional): The protobuf object with the</span>
+<span class="sd">            data to write to ipfs on `.write()`. Defaults to None.</span>
+<span class="sd">        reader (Message, optional): The protobuf object to populate</span>
+<span class="sd">            when reading the data from ipfs with `.read()`.</span>
+<span class="sd">            Defaults to None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">ipfs</span> <span class="o">=</span> <span class="n">ipfs</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">writer</span> <span class="o">=</span> <span class="n">writer</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">reader</span> <span class="o">=</span> <span class="n">reader</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="src.store.Store.read" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">read</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Read the data from ipfs into <code>self.reader</code>.</p>
+
+  <p><strong>Raises:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>FileNotFoundError</code>
+          </td>
+          <td><p>An exception is raised if the file is
+not found on IPFS.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>src/store.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read the data from ipfs into `self.reader`.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        FileNotFoundError: An exception is raised if the file is</span>
+<span class="sd">            not found on IPFS.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_filename</span><span class="p">()</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ipfs</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+            <span class="n">errno</span><span class="o">.</span><span class="n">ENOENT</span><span class="p">,</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="o">.</span><span class="n">ENOENT</span><span class="p">),</span>
+            <span class="n">filename</span>
+        <span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="src.store.Store.add" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">add</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Add the protobuf data from <code>self.writer</code> to IPFS.</p>
+
+      <details class="quote">
+        <summary>Source code in <code>src/store.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add the protobuf data from `self.writer` to IPFS.&quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">ipfs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_filename</span><span class="p">(),</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">()</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="src.store.Store.delete" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">delete</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Only needed for local testing.</p>
+
+      <details class="quote">
+        <summary>Source code in <code>src/store.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Only needed for local testing.&quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">ipfs</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_filename</span><span class="p">())</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="src.store.Store.to_dataframe" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">to_dataframe</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">protobuf_parsers</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Convert a list of Store objects to a pandas dataframe.</p>
+<p>The data for each Store must be read into memory beforehand;
+    using <code>store.read()</code></p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>data</code></td>
+          <td>
+                <code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="src.store.Store" href="#src.store.Store">Store</a>]</code>
+          </td>
+          <td><p>The list of Store objects with Indexes</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>protobuf_parsers</code></td>
+          <td>
+                <code><span title="typing.Dict">Dict</span>[str, <span title="types.FunctionType">FunctionType</span>]</code>
+          </td>
+          <td><p>(Dict[str, function]): key, value pair of
+key (str) --&gt; pandas column name
+value (function) --&gt; how to extract the value from the store</p>
+<p>The function should accept a Store object and return Any</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
+          </td>
+          <td><p>pd.DataFrame: The index and subindex data
+reformatted into a dataframe</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>src/store.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span> <span class="nf">to_dataframe</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Store</span><span class="p">],</span>
+        <span class="n">protobuf_parsers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FunctionType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a list of Store objects to a pandas dataframe.</span>
+
+<span class="sd">    The data for each Store must be read into memory beforehand;</span>
+<span class="sd">        using `store.read()`</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (List[Store]): The list of Store objects with Indexes</span>
+<span class="sd">        protobuf_parsers: (Dict[str, function]): key, value pair of</span>
+<span class="sd">            key (str) --&gt; pandas column name</span>
+<span class="sd">            value (function) --&gt; how to extract the value from the store</span>
+
+<span class="sd">            The function should accept a Store object and return Any</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: The index and subindex data</span>
+<span class="sd">            reformatted into a dataframe</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pandas_input</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">store</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+
+        <span class="c1"># add metadata</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_metadata</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">metadata</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pandas_input</span><span class="p">:</span>
+                <span class="n">pandas_input</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="n">pandas_input</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+        <span class="c1"># add top level data from the reader</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">protobuf_parsers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pandas_input</span><span class="p">:</span>
+                <span class="n">pandas_input</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="n">pandas_input</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">protobuf_parsers</span><span class="p">[</span><span class="n">key</span><span class="p">](</span><span class="n">store</span><span class="p">))</span>
+
+    <span class="c1"># load the data into a pandas dataframe</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">pandas_input</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="src.store.Store.query_indexes" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">query_indexes</span><span class="p">(</span><span class="n">query_index</span><span class="p">,</span> <span class="n">ipfs</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Query ipfs based on the <code>query_index</code> param.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>query_index</code></td>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="src.index.Index" href="../classes_index/#src.index.Index">Index</a></code>
+          </td>
+          <td><p>The Index object to use for the query.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>ipfs</code></td>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="src.ipfs.Ipfs" href="../classes_ipfs/#src.ipfs.Ipfs">Ipfs</a></code>
+          </td>
+          <td><p>The IPFS client.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="src.index.Index" href="../classes_index/#src.index.Index">Index</a>]</code>
+          </td>
+          <td><p>List[Index]: The matching filenames found in ipfs, loaded
+into a list of Index objects</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>src/store.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span> <span class="nf">query_indexes</span><span class="p">(</span><span class="n">query_index</span><span class="p">:</span> <span class="n">Index</span><span class="p">,</span> <span class="n">ipfs</span><span class="p">:</span> <span class="n">Ipfs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Index</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query ipfs based on the `query_index` param.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        query_index (Index): The Index object to use for the query.</span>
+<span class="sd">        ipfs (Ipfs): The IPFS client.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List[Index]: The matching filenames found in ipfs, loaded</span>
+<span class="sd">            into a list of Index objects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># list the files in the directory</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">query_index</span><span class="o">.</span><span class="n">get_filename</span><span class="p">()</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">ipfs</span><span class="o">.</span><span class="n">list_files</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">filenames</span> <span class="o">=</span> <span class="p">[</span><span class="n">file</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;Entries&#39;</span><span class="p">]]</span>
+    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+        <span class="c1"># Listing the same file twice indicates the base case</span>
+        <span class="c1">#   ex:</span>
+        <span class="c1">#       path = `ls dir1/dir2` --&gt; filenames = [&quot;filename&quot;]</span>
+        <span class="c1">#       path = `ls dir1/dir2/filename` --&gt; filenames = [&quot;filename&quot;]</span>
+        <span class="k">if</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">query_index</span><span class="p">]</span>
+
+        <span class="c1"># filter filenames based on the index</span>
+        <span class="n">full_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;//&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="n">from_index</span> <span class="o">=</span> <span class="n">Index</span><span class="o">.</span><span class="n">from_filename</span><span class="p">(</span>
+            <span class="n">filename</span><span class="o">=</span><span class="n">full_filename</span><span class="p">,</span>
+            <span class="n">has_prefix</span><span class="o">=</span><span class="n">query_index</span><span class="o">.</span><span class="n">prefix</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">query_index</span><span class="o">.</span><span class="n">matches</span><span class="p">(</span><span class="n">from_index</span><span class="p">):</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="n">Store</span><span class="o">.</span><span class="n">query_indexes</span><span class="p">(</span><span class="n">from_index</span><span class="p">,</span> <span class="n">ipfs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="src.store.Store.query" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">query</span><span class="p">(</span><span class="n">query_index</span><span class="p">,</span> <span class="n">ipfs</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Query ipfs based on the <code>query_index</code> param.</p>
+<p>Find the filenames matching the query_index.
+Read the file contents from ipfs for each matching filename.
+Parse the file contents into the reader protobuf object.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>query_index</code></td>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="src.index.Index" href="../classes_index/#src.index.Index">Index</a></code>
+          </td>
+          <td><p>The Index object to use for the query.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>ipfs</code></td>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="src.ipfs.Ipfs" href="../classes_ipfs/#src.ipfs.Ipfs">Ipfs</a></code>
+          </td>
+          <td><p>The IPFS client.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>reader</code></td>
+          <td>
+                <code><span title="google.protobuf.message.Message">Message</span></code>
+          </td>
+          <td><p><em>description</em></p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Yields:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="typing.Iterator">Iterator</span>[<a class="autorefs autorefs-internal" title="src.store.Store" href="#src.store.Store">Store</a>]</code>
+          </td>
+          <td><p>Iterator[Store]: The list of matching Store objects with
+file content loaded into the <code>reader</code> attribute</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>src/store.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span> <span class="nf">query</span><span class="p">(</span>
+        <span class="n">query_index</span><span class="p">:</span> <span class="n">Index</span><span class="p">,</span>
+        <span class="n">ipfs</span><span class="p">:</span> <span class="n">Ipfs</span><span class="p">,</span>
+        <span class="n">reader</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Store</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query ipfs based on the `query_index` param.</span>
+
+<span class="sd">    Find the filenames matching the query_index.</span>
+<span class="sd">    Read the file contents from ipfs for each matching filename.</span>
+<span class="sd">    Parse the file contents into the reader protobuf object.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        query_index (Index): The Index object to use for the query.</span>
+<span class="sd">        ipfs (Ipfs): The IPFS client.</span>
+<span class="sd">        reader (Message): _description_</span>
+
+<span class="sd">    Yields:</span>
+<span class="sd">        Iterator[Store]: The list of matching Store objects with</span>
+<span class="sd">            file content loaded into the `reader` attribute</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">response_index</span> <span class="ow">in</span> <span class="n">Store</span><span class="o">.</span><span class="n">query_indexes</span><span class="p">(</span><span class="n">query_index</span><span class="p">,</span> <span class="n">ipfs</span><span class="p">):</span>
+        <span class="n">store</span> <span class="o">=</span> <span class="n">Store</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">response_index</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="n">reader</span><span class="p">,</span> <span class="n">ipfs</span><span class="o">=</span><span class="n">ipfs</span><span class="p">)</span>
+        <span class="n">store</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">yield</span> <span class="n">store</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../classes_ipfs/" class="btn btn-neutral float-left" title="Ipfs"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../classes_index/" class="btn btn-neutral float-right" title="Index">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/nanoswap/ipfs-kvs" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../classes_ipfs/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../classes_index/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
