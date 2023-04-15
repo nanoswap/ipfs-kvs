@@ -1,6 +1,5 @@
 site_name: "ipfs-kvs"
 repo_url: https://github.com/nanoswap/ipfs-kvs
-issue_tracker: https://github.com/nanoswap/ipfs-kvs/issues
 edit_uri: blob/main/docs/
 
 nav:
