@@ -9,6 +9,33 @@ source = ["ipfs-kvs"]
 show_missing = true
 
 [project]
+name = "ipfs-kvs"
+version = "0.0.2"
+description = "IPFS python client"
+urls = {'Bug Tracker' = 'https://github.com/nanoswap/ipfs-kvs/issues'}
+classifiers = [
+    'Programming Language :: Python :: 3',
+    'License :: OSI Approved :: The Unlicense (Unlicense)'
+]
+authors = [{'name' = 'Nathaniel Schultz', 'email' = 'nate@nanoswap.finance'}]
+requires-python = '>=3.11'
+readme = 'README.md'
+license = {'file' = 'LICENSE'}
 dependencies = [
-    "mkdocstrings-python",
+    "requests",
+    "protobuf",
+    "setuptools",
+    "py-multicodec",
+    "pandas",
+    "nox",
+    "mock",
+    "pytest",
+    "flake8",
+    "flake8-docstrings",
+    "flake8-annotations",
+    "flake8-import-order",
+    "Faker",
+    "mkdocs",
+    "mkdocstrings",
+    "mkdocstrings-python"
 ]

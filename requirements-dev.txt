@@ -1,5 +1,4 @@
 nox
-hypothesis
 mock
 pytest
 flake8

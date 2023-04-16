@@ -1,5 +1,7 @@
+site
 src/nanoswap
 src/generated/tmp
+.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
