@@ -1,13 +1,14 @@
 __package__ = "tests.integration"
 
-from typing import Self
 import unittest
-from faker import Faker
 import uuid
+from typing import Self
+
+from faker import Faker
 
 from ipfskvs.index import Index
-from ipfskvs.store import Store
 from ipfskvs.ipfs import Ipfs
+from ipfskvs.store import Store
 
 from protobuf.sample_pb2 import Example, Type
 
