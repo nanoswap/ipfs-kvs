@@ -1,25 +1,33 @@
 # ipfs (interplanetary filesystem) kvs (key value store)
 
-Documentation: https://ipfs-kvs.readthedocs.io/
+## Installation
 
-## Build docs
+```
+pip install ipfskvs
+```
+
+## Documentation
+
+https://ipfs-kvs.readthedocs.io/
+
+### Build docs locally
 `mkdocs serve`
 
-## Run tests
+## Tests
 To only run tests: `pytest`  
 To run all checks: `nox`
 
-Note: before running tests:
-   - Generate the pb2.py files used for testing
-   - Make sure your local ipfs daemon is running
+### Before running tests:
 
-## Regenerate pb2.py files
+ - Regenerate pb2.py files:  
 ```
 cd protobuf;
 protoc --python_out=../proto --proto_path=protobuf protobuf/sample.proto
 ```
 
-## Run the ipfs daemon
+ - Ipfs setup: https://docs.ipfs.tech/install/  
+
+ - Run the ipfs daemon:
 ```
 ipfs daemon --api /ip4/0.0.0.0/tcp/5001
 ```
@@ -27,10 +35,8 @@ Check the status of your node at:
   - http://localhost:5001/webui
   - https://webui.ipfs.io/#/status
 
-### ipfs setup
-https://docs.ipfs.tech/install/
 
-### ipfs troubleshooting
+## IPFS troubleshooting
 
 Set the log level, send the logs to a file, and search the file for relevant messages
 ```

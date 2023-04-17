@@ -24,8 +24,9 @@ class Ipfs():
     ### Usage
     For testing with a local ipfs node
     ```py
-        import ipfs
-        client = ipfs.Ipfs()  # defaults to http://127.0.0.1:5001/api/v0
+        from ipfskvs.ipfs import Ipfs
+
+        client = Ipfs()  # defaults to http://127.0.0.1:5001/api/v0
         client.mkdir("my_dir")
         client.add("my_dir/my_file", b"my_contents")
     ```
