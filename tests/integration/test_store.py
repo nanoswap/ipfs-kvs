@@ -3,10 +3,10 @@ __package__ = "tests.integration"
 import unittest
 from faker import Faker
 import uuid
-from src.index import Index
-from src.store import Store
+from ipfskvs.index import Index
+from ipfskvs.store import Store
 from protobuf.sample_pb2 import Example, Type
-from src.ipfs import Ipfs
+from ipfskvs.ipfs import Ipfs
 
 Faker.seed(0)
 fake = Faker()

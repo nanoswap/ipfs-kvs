@@ -1,6 +1,6 @@
 # Ipfs
 
-::: src.ipfs.Ipfs
+::: ipfskvs.ipfs.Ipfs
     handler: python
     options:
       members:

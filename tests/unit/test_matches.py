@@ -2,7 +2,7 @@ __package__ = "tests.unit"
 
 from uuid import UUID
 import pytest
-from src.index import Index
+from ipfskvs.index import Index
 
 
 @pytest.fixture

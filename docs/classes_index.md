@@ -1,6 +1,6 @@
 # Index
 
-::: src.index.Index
+::: ipfskvs.index.Index
     handler: python
     options:
       members:

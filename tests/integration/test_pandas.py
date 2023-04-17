@@ -1,9 +1,9 @@
 __package__ = "tests.integration"
 
 import unittest
-from src.store import Store
-from src.index import Index
-from src.ipfs import Ipfs
+from ipfskvs.store import Store
+from ipfskvs.index import Index
+from ipfskvs.ipfs import Ipfs
 from protobuf.sample_pb2 import Example, Type
 import uuid
 

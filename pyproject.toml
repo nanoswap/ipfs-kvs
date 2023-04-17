@@ -1,12 +1,12 @@
 [tool.coverage.paths]
-source = ["src", "*/site-packages"]
+source = ["ipfskvs", "*/site-packages"]
 
 [tool.coverage.report]
 show_missing = true
 
 [project]
 name = "ipfskvs"
-version = "0.0.5"
+version = "0.0.6"
 description = "IPFS python client"
 urls = {'Bug Tracker' = 'https://github.com/nanoswap/ipfskvs/issues'}
 classifiers = [

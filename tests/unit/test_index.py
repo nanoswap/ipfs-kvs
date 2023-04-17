@@ -2,7 +2,7 @@ __package__ = "tests.unit"
 
 import unittest
 from uuid import UUID
-from src.index import Index
+from ipfskvs.index import Index
 
 
 class TestIndex(unittest.TestCase):

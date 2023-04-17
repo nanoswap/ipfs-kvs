@@ -1,6 +1,6 @@
 __package__ = "tests.integration"
 
-from src.ipfs import Ipfs
+from ipfskvs.ipfs import Ipfs
 
 ipfs = Ipfs()
 

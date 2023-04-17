@@ -2,13 +2,13 @@ __package__ = "tests.unit"
 
 import unittest
 from unittest.mock import patch, MagicMock
-from src.ipfs import Ipfs
+from ipfskvs.ipfs import Ipfs
 import requests
 
 
 class TestIpfs(unittest.TestCase):
 
-    @patch('src.ipfs.requests.post')
+    @patch('ipfskvs.ipfs.requests.post')
     def test_mkdir(self, mock_post):
         ipfs = Ipfs()
         mock_post.return_value.raise_for_status.return_value = None
@@ -19,7 +19,7 @@ class TestIpfs(unittest.TestCase):
             files=None
         )
 
-    @patch('src.ipfs.requests.post')
+    @patch('ipfskvs.ipfs.requests.post')
     def test_read(self, mock_post):
         ipfs = Ipfs()
         mock_post.return_value.content = b"test data"
@@ -31,7 +31,7 @@ class TestIpfs(unittest.TestCase):
         )
         self.assertEqual(result, b"test data")
 
-    @patch('src.ipfs.requests.post')
+    @patch('ipfskvs.ipfs.requests.post')
     def test_add(self, mock_post):
         ipfs = Ipfs()
         mock_post.return_value.raise_for_status.return_value = None
@@ -47,7 +47,7 @@ class TestIpfs(unittest.TestCase):
             }
         )
 
-    @patch('src.ipfs.requests.post')
+    @patch('ipfskvs.ipfs.requests.post')
     def test_does_file_exist_true(self, mock_post):
         ipfs = Ipfs()
         mock_post.return_value.content = b"{}"
@@ -59,7 +59,7 @@ class TestIpfs(unittest.TestCase):
         )
         self.assertTrue(result)
 
-    @patch('src.ipfs.requests.post')
+    @patch('ipfskvs.ipfs.requests.post')
     def test_does_file_exist_false(self, mock_post):
         ipfs = Ipfs()
         mock_post.side_effect = requests.exceptions.HTTPError(
@@ -77,7 +77,7 @@ class TestIpfs(unittest.TestCase):
         )
         self.assertFalse(result)
 
-    @patch('src.ipfs.requests.post')
+    @patch('ipfskvs.ipfs.requests.post')
     def test_stat(self, mock_post):
         ipfs = Ipfs()
         mock_post.return_value.content = b'{"Type": 2, "CumulativeSize": 0, "Blocks": 0}'  # noqa: E501
@@ -89,7 +89,7 @@ class TestIpfs(unittest.TestCase):
         )
         self.assertEqual(result, {"Type": 2, "CumulativeSize": 0, "Blocks": 0})
 
-    @patch('src.ipfs.requests.post')
+    @patch('ipfskvs.ipfs.requests.post')
     def test_delete(self, mock_post):
         ipfs = Ipfs()
         # Call the function

@@ -8,10 +8,10 @@ from typing import Dict, Iterator, List, Self
 
 from google.protobuf.message import Message
 
-import pandas as pd
+from ipfskvs.index import Index
+from ipfskvs.ipfs import Ipfs
 
-from src.index import Index
-from src.ipfs import Ipfs
+import pandas as pd
 
 
 @dataclass

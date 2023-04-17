@@ -1,6 +1,6 @@
 # Store
 
-::: src.store.Store
+::: ipfskvs.store.Store
     handler: python
     options:
       members:
