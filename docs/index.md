@@ -2,19 +2,28 @@
 
 [github.com/nanoswap/ipfskvs](https://github.com/nanoswap/ipfskvs)
 
+# Installation
+
+```
+pip install ipfskvs
+```
+
 # Wrappers for IPFS RPC endpoints
 ```py
-import ipfs
-client = ipfs.Ipfs()  # defaults to http://127.0.0.1:5001/api/v0
-client.mkdir("my_dir")
-client.add("my_dir/my_file", b"my_contents")
+    from ipfskvs.ipfs import Ipfs
+
+    client = ipfs.Ipfs()  # defaults to http://127.0.0.1:5001/api/v0
+    client.mkdir("my_dir")
+    client.add("my_dir/my_file", b"my_contents")
 ```
 
 # Read and write protobuf contents
 
 ## Reading:
 ```py
-    from nanoswap.ipfskvs import Store, Index, Ipfs
+    from ipfskvs.index import Index
+    from ipfskvs.ipfs import Ipfs
+    from ipfskvs.store import Store
     from myprotobuf_pb2 import MyProtobuf
 
     store = Store(
@@ -29,7 +38,9 @@ client.add("my_dir/my_file", b"my_contents")
 
 ## Writing:
 ```py
-    from nanoswap.ipfskvs import Store, Index, Ipfs
+    from ipfskvs.index import Index
+    from ipfskvs.ipfs import Ipfs
+    from ipfskvs.store import Store
     from myprotobuf_pb2 import MyProtobuf
 
     store = Store(
@@ -54,7 +65,9 @@ Create a tiered file structure based on IDs, ex:
             ├── deal_2.data
 ```
 ```py
-    from nanoswap.ipfskvs import Store, Index, Ipfs
+    from ipfskvs.index import Index
+    from ipfskvs.ipfs import Ipfs
+    from ipfskvs.store import Store
     from deal_pb2 import Deal
 
     index = Index(
@@ -77,7 +90,9 @@ Create a tiered file structure based on IDs, ex:
 ## Query the multiple indexes
 Ex: get all deals with designer id "123"
 ```py
-    from nanoswap.ipfskvs import Store, Index, Ipfs
+    from ipfskvs.index import Index
+    from ipfskvs.ipfs import Ipfs
+    from ipfskvs.store import Store
     from deal_pb2 import Deal
 
     query_index = Index(

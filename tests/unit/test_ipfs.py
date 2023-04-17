@@ -1,15 +1,20 @@
 __package__ = "tests.unit"
 
 import unittest
-from unittest.mock import patch, MagicMock
+from typing import Self
+from unittest.mock import MagicMock, patch
+
 from ipfskvs.ipfs import Ipfs
+
 import requests
 
 
 class TestIpfs(unittest.TestCase):
+    """Test the Ipfs Class."""
 
     @patch('ipfskvs.ipfs.requests.post')
-    def test_mkdir(self, mock_post):
+    def test_mkdir(self: Self, mock_post: MagicMock) -> None:
+        """Test the mkdir function."""
         ipfs = Ipfs()
         mock_post.return_value.raise_for_status.return_value = None
         ipfs.mkdir("test_dir")
@@ -20,7 +25,8 @@ class TestIpfs(unittest.TestCase):
         )
 
     @patch('ipfskvs.ipfs.requests.post')
-    def test_read(self, mock_post):
+    def test_read(self: Self, mock_post: MagicMock) -> None:
+        """Test the read function."""
         ipfs = Ipfs()
         mock_post.return_value.content = b"test data"
         result = ipfs.read("test_file")
@@ -32,7 +38,8 @@ class TestIpfs(unittest.TestCase):
         self.assertEqual(result, b"test data")
 
     @patch('ipfskvs.ipfs.requests.post')
-    def test_add(self, mock_post):
+    def test_add(self: Self, mock_post: MagicMock) -> None:
+        """Test the add function."""
         ipfs = Ipfs()
         mock_post.return_value.raise_for_status.return_value = None
         ipfs.add("test_file", b"test data")
@@ -48,7 +55,8 @@ class TestIpfs(unittest.TestCase):
         )
 
     @patch('ipfskvs.ipfs.requests.post')
-    def test_does_file_exist_true(self, mock_post):
+    def test_does_file_exist_true(self: Self, mock_post: MagicMock) -> None:
+        """Test with a file that does exist."""
         ipfs = Ipfs()
         mock_post.return_value.content = b"{}"
         result = ipfs.does_file_exist("test_file")
@@ -60,12 +68,13 @@ class TestIpfs(unittest.TestCase):
         self.assertTrue(result)
 
     @patch('ipfskvs.ipfs.requests.post')
-    def test_does_file_exist_false(self, mock_post):
+    def test_does_file_exist_false(self: Self, mock_post: MagicMock) -> None:
+        """Test with a file that does not exist."""
         ipfs = Ipfs()
         mock_post.side_effect = requests.exceptions.HTTPError(
             "file does not exist",
             response=MagicMock(
-                status_code=404, 
+                status_code=404,
                 _content=b'file does not exist'
             )
         )
@@ -78,7 +87,8 @@ class TestIpfs(unittest.TestCase):
         self.assertFalse(result)
 
     @patch('ipfskvs.ipfs.requests.post')
-    def test_stat(self, mock_post):
+    def test_stat(self: Self, mock_post: MagicMock) -> None:
+        """Test the stat function."""
         ipfs = Ipfs()
         mock_post.return_value.content = b'{"Type": 2, "CumulativeSize": 0, "Blocks": 0}'  # noqa: E501
         result = ipfs.stat("test_file")
@@ -90,7 +100,8 @@ class TestIpfs(unittest.TestCase):
         self.assertEqual(result, {"Type": 2, "CumulativeSize": 0, "Blocks": 0})
 
     @patch('ipfskvs.ipfs.requests.post')
-    def test_delete(self, mock_post):
+    def test_delete(self: Self, mock_post: MagicMock) -> None:
+        """Test the delete function."""
         ipfs = Ipfs()
         # Call the function
         ipfs.delete("path/to/file.txt")

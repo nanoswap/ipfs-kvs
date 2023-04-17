@@ -9,8 +9,8 @@ def build(session: nox.Session) -> None:
     session.run("python", "-m", "build")
 
     # publish pip package
-    session.install("twine")
-    session.run("twine", "upload", "dist/*")
+    # session.install("twine")
+    # session.run("twine", "upload", "dist/*")
 
 
 @nox.session(python=["python3.11"])
@@ -29,8 +29,17 @@ def lint(session: nox.Session) -> None:
     """Run the linter checks."""
     session.install('flake8')
     session.install("-r", "requirements-dev.txt")
+
+    # lint the source code
     session.run(
         'flake8', 'ipfskvs',
         '--docstring-convention', 'google',
         '--ignore=D100'
+    )
+
+    # lint the tests
+    session.run(
+        'flake8', 'tests',
+        '--docstring-convention', 'google',
+        '--ignore=D100,D104'
     )

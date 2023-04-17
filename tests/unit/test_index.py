@@ -1,21 +1,24 @@
 __package__ = "tests.unit"
 
 import unittest
+from typing import Self
 from uuid import UUID
+
 from ipfskvs.index import Index
 
 
 class TestIndex(unittest.TestCase):
-    def setUp(self):
-        # create a sample index to use in tests
+    """Test the Index class."""
+    def setUp(self: Self) -> None:
+        """Create a sample index to use in tests."""
         self.sample_index = {
             "apple": UUID("00000000-0000-0000-0000-000000000001"),
             "banana": UUID("00000000-0000-0000-0000-000000000002"),
             "cherry": UUID("00000000-0000-0000-0000-000000000003"),
         }
 
-    def test_init(self):
-        # test the initialization of an Index object
+    def test_init(self: Self) -> None:
+        """Test the initialization of an Index object."""
         idx = Index(self.sample_index)
         self.assertEqual(idx.index, self.sample_index)
         self.assertIsNone(idx.subindex)
@@ -29,16 +32,16 @@ class TestIndex(unittest.TestCase):
         self.assertEqual(idx.prefix, "test")
         self.assertEqual(idx.size, 100)
 
-    def test_is_partial(self):
-        # test the is_partial method of an Index object
+    def test_is_partial(self: Self) -> None:
+        """Test the is_partial method of an Index object."""
         idx1 = Index(self.sample_index)
         self.assertFalse(idx1.is_partial())
 
         idx2 = Index(self.sample_index, size=2)
         self.assertTrue(idx2.is_partial())
 
-    def test_get_filename_no_prefix_no_subindex(self):
-        # Test case 1: index with no prefix, no subindex
+    def test_get_filename_no_prefix_no_subindex(self: Self) -> None:
+        """Test an index with no prefix, no subindex."""
         idx1 = Index(
             index={
                 "a": UUID("00000000-0000-0000-0000-000000000001"),
@@ -47,8 +50,8 @@ class TestIndex(unittest.TestCase):
         )
         assert idx1.get_filename() == "a_00000000-0000-0000-0000-000000000001.b_00000000-0000-0000-0000-000000000002"  # noqa: E501
 
-    def test_get_filename_with_prefix_no_subindex(self):
-        # Test case 2: index with a prefix, no subindex
+    def test_get_filename_with_prefix_no_subindex(self: Self) -> None:
+        """Test an index with a prefix, no subindex."""
         idx2 = Index(
             index={
                 "a": UUID("00000000-0000-0000-0000-000000000001"),
@@ -58,8 +61,8 @@ class TestIndex(unittest.TestCase):
         )
         assert idx2.get_filename() == "prefix/a_00000000-0000-0000-0000-000000000001.b_00000000-0000-0000-0000-000000000002"  # noqa: E501
 
-    def test_get_filename_with_subindex(self):
-        # Test case 3: index with a subindex
+    def test_get_filename_with_subindex(self: Self) -> None:
+        """Test an index with a subindex."""
         idx3 = Index(
             index={
                 "a": UUID("00000000-0000-0000-0000-000000000001"),
@@ -73,8 +76,8 @@ class TestIndex(unittest.TestCase):
         )
         assert idx3.get_filename() == "a_00000000-0000-0000-0000-000000000001.b_00000000-0000-0000-0000-000000000002/c_00000000-0000-0000-0000-000000000003"  # noqa: E501
 
-    def test_get_filename_multiple_index_no_subindex(self):
-        # Test case 4: index with multiple indexes, no subindex
+    def test_get_filename_multiple_index_no_subindex(self: Self) -> None:
+        """Test an index with multiple indexes and no subindex."""
         idx4 = Index(
             index={
                 "a": UUID("00000000-0000-0000-0000-000000000001"),
@@ -84,8 +87,8 @@ class TestIndex(unittest.TestCase):
         )
         assert idx4.get_filename() == "a_00000000-0000-0000-0000-000000000001.b_00000000-0000-0000-0000-000000000002.c_00000000-0000-0000-0000-000000000012"  # noqa: E501
 
-    def test_get_filename_multiple_index_with_subindex(self):
-        # Test case 5: index with multiple indexes and subindex
+    def test_get_filename_multiple_index_with_subindex(self: Self) -> None:
+        """Test an index with multiple indexes and subindex."""
         idx5 = Index(
             index={
                 "a": UUID("00000000-0000-0000-0000-000000000001"),
@@ -100,16 +103,16 @@ class TestIndex(unittest.TestCase):
         )
         assert idx5.get_filename() == "a_00000000-0000-0000-0000-000000000001.b_00000000-0000-0000-0000-000000000002.c_00000000-0000-0000-0000-000000000012/d_00000000-0000-0000-0000-000000000004"  # noqa: E501
 
-    def test_from_filename_no_subindex(self):
-        # Test with no subindex
+    def test_from_filename_no_subindex(self: Self) -> None:
+        """Test with no subindex."""
         filename = "baz_12300000-0000-0000-0000-000000000000"
         index = Index.from_filename(filename)
         assert index.prefix is None
         assert index.index == {"baz": "12300000-0000-0000-0000-000000000000"}
         assert index.subindex is None
 
-    def test_from_filename_with_subindex(self):
-        # Test with subindex
+    def test_from_filename_with_subindex(self: Self) -> None:
+        """Test with subindex."""
         filename = "bar/baz_12300000-0000-0000-0000-000000000000/fizz_45600000-0000-0000-0000-000000000000"  # noqa: E501
         index = Index.from_filename(filename, has_prefix=True)
         assert index.prefix == "bar"
@@ -118,8 +121,8 @@ class TestIndex(unittest.TestCase):
         assert index.subindex.index == {"fizz": "45600000-0000-0000-0000-000000000000"}  # noqa: E501
         assert index.subindex.subindex is None
 
-    def test_from_filename_multiple_index(self):
-        # Test with multiple index
+    def test_from_filename_multiple_index(self: Self) -> None:
+        """Test with multiple index."""
         filename = "foo/a_00000000-0000-0000-0000-000000000001.b_00000000-0000-0000-0000-000000000002"  # noqa: E501
         index = Index.from_filename(filename, has_prefix=True)
         assert index.prefix == "foo"

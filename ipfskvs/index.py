@@ -13,6 +13,8 @@ class Index():
 
     ### Convert a filename to an Index object
     ```py
+        from ipfskvs.index import Index
+
         index = Index.from_filename("mydir/show_1/season_2/episode_6.mp4")
     ```
 

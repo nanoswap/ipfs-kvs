@@ -1,24 +1,32 @@
 __package__ = "tests.integration"
 
 import unittest
-from faker import Faker
 import uuid
+from typing import Self
+
+from faker import Faker
+
 from ipfskvs.index import Index
-from ipfskvs.store import Store
-from protobuf.sample_pb2 import Example, Type
 from ipfskvs.ipfs import Ipfs
+from ipfskvs.store import Store
+
+from protobuf.sample_pb2 import Example, Type
 
 Faker.seed(0)
 fake = Faker()
 
 
 class TestStore(unittest.TestCase):
-    def setUp(self):
+    """Test the Store class."""
+
+    def setUp(self: Self) -> None:
+        """Generate some sample data."""
         self.borrower = str(uuid.uuid4())
         self.lender = str(uuid.uuid4())
         self.loan = str(uuid.uuid4())
 
-    def test_store_and_read_data(self):
+    def test_store_and_read_data(self: Self) -> None:
+        """Test adding and then reading data."""
         # create and store example data
         data = Example(type=Type.BUZZ, content="fizz")
         index = Index(
@@ -44,7 +52,8 @@ class TestStore(unittest.TestCase):
         store2.read()
         self.assertEqual(store2.reader, data)
 
-    def test_query_borrower_and_lender(self):
+    def test_query_borrower_and_lender(self: Self) -> None:
+        """Test `query` with a multi-indexed input."""
         # create and store example data
         data = Example(type=Type.BUZZ, content="fizz")
         index = Index(
@@ -85,7 +94,8 @@ class TestStore(unittest.TestCase):
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0].index, index)
 
-    def test_query_borrower_only(self):
+    def test_query_borrower_only(self: Self) -> None:
+        """Test `query` with a partial index."""
         # create and store example data
         data = Example(type=Type.BUZZ, content="fizz")
         index = Index(
