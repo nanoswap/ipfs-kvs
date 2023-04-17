@@ -21,9 +21,9 @@ pip install ipfskvs
 
 ## Reading:
 ```py
+    from ipfskvs.index import Index
     from ipfskvs.ipfs import Ipfs
     from ipfskvs.store import Store
-    from ipfskvs.index import Index
     from myprotobuf_pb2 import MyProtobuf
 
     store = Store(
@@ -38,9 +38,9 @@ pip install ipfskvs
 
 ## Writing:
 ```py
+    from ipfskvs.index import Index
     from ipfskvs.ipfs import Ipfs
     from ipfskvs.store import Store
-    from ipfskvs.index import Index
     from myprotobuf_pb2 import MyProtobuf
 
     store = Store(
@@ -65,9 +65,9 @@ Create a tiered file structure based on IDs, ex:
             ├── deal_2.data
 ```
 ```py
+    from ipfskvs.index import Index
     from ipfskvs.ipfs import Ipfs
     from ipfskvs.store import Store
-    from ipfskvs.index import Index
     from deal_pb2 import Deal
 
     index = Index(
@@ -90,9 +90,9 @@ Create a tiered file structure based on IDs, ex:
 ## Query the multiple indexes
 Ex: get all deals with designer id "123"
 ```py
+    from ipfskvs.index import Index
     from ipfskvs.ipfs import Ipfs
     from ipfskvs.store import Store
-    from ipfskvs.index import Index
     from deal_pb2 import Deal
 
     query_index = Index(

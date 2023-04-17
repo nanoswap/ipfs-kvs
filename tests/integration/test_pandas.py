@@ -1,17 +1,26 @@
 __package__ = "tests.integration"
 
 import unittest
-from ipfskvs.store import Store
+import uuid
+from typing import List, Self
+
 from ipfskvs.index import Index
 from ipfskvs.ipfs import Ipfs
+from ipfskvs.store import Store
+
 from protobuf.sample_pb2 import Example, Type
-import uuid
 
 
 class TestPandas(unittest.TestCase):
+    """Test pandas related utilities."""
 
     @staticmethod
-    def generate_index(borrower, lender, loan, payment):
+    def generate_index(
+            borrower: str,
+            lender: str,
+            loan: str,
+            payment: str) -> Index:
+        """Create sample index data."""
         return Index(
             prefix="loan",
             index={
@@ -28,8 +37,8 @@ class TestPandas(unittest.TestCase):
             )
         )
 
-    def sample_data(self):
-
+    def sample_data(self: Self) -> List[Store]:
+        """Create sample Store data."""
         self.borrower_1 = str(uuid.uuid4())
         self.borrower_2 = str(uuid.uuid4())
         self.lender = str(uuid.uuid4())
@@ -89,7 +98,8 @@ class TestPandas(unittest.TestCase):
             ),
         ]
 
-    def test_to_dataframe(self):
+    def test_to_dataframe(self: Self) -> None:
+        """Test the to_dataframe function."""
         sample_data = self.sample_data()
         df = Store.to_dataframe(sample_data, protobuf_parsers={
             "content": lambda store: store.reader.content,

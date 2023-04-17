@@ -6,8 +6,7 @@ ipfs = Ipfs()
 
 
 def test_mkdir() -> None:
-    """ Test the `utils.mkdir` function """
-
+    """Test the `utils.mkdir` function."""
     # Define the expected directory name
     directory_name = "test_directory"
 
