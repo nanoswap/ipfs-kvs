@@ -7,16 +7,16 @@ def load_long_description(filename: str) -> str:
 
 
 setup(
-    name="ipfs-kvs",
-    version="0.0.2",
+    name="ipfskvs",
+    version="0.0.4",
     author="Nathaniel Schultz",
     author_email="nate@nanoswap.finance",
-    description="IPFS Experiment",
+    description="IPFS Key Value Store",
     long_description=load_long_description("README.md"),
     long_description_content_type="text/markdown",
-    url="https://github.com/nanoswap/ipfs-kvs",
+    url="https://github.com/nanoswap/ipfskvs",
     project_urls={
-        "Bug Tracker": "https://github.com/nanoswap/ipfs-kvs/issues",
+        "Bug Tracker": "https://github.com/nanoswap/ipfskvs/issues",
     },
     classifiers=[
         "Programming Language :: Python :: 3",

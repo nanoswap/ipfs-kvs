@@ -1,6 +1,6 @@
 # IPFS Key Value Store 
 
-[github.com/nanoswap/ipfs-kvs](https://github.com/nanoswap/ipfs-kvs)
+[github.com/nanoswap/ipfskvs](https://github.com/nanoswap/ipfskvs)
 
 # Wrappers for IPFS RPC endpoints
 ```py

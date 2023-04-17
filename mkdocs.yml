@@ -1,7 +1,6 @@
-site_name: "ipfs-kvs"
-repo_url: https://github.com/nanoswap/ipfs-kvs
+site_name: "ipfskvs"
+repo_url: https://github.com/nanoswap/ipfskvs
 edit_uri: blob/main/docs/
-site_url: https://nanoswap.github.io/ipfs-kvs
 
 nav:
   - Home: 'index.md'
@@ -21,3 +20,6 @@ plugins:
     handlers:
       python:
         paths: [.]  # actually not needed, default
+
+extra:
+    version: 0.0.4

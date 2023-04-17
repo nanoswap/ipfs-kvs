@@ -1,18 +1,14 @@
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
 
-[tool.coverage.run]
-branch = true
-source = ["ipfs-kvs"]
-
 [tool.coverage.report]
 show_missing = true
 
 [project]
-name = "ipfs-kvs"
-version = "0.0.2"
+name = "ipfskvs"
+version = "0.0.4"
 description = "IPFS python client"
-urls = {'Bug Tracker' = 'https://github.com/nanoswap/ipfs-kvs/issues'}
+urls = {'Bug Tracker' = 'https://github.com/nanoswap/ipfskvs/issues'}
 classifiers = [
     'Programming Language :: Python :: 3',
     'License :: OSI Approved :: The Unlicense (Unlicense)'
@@ -27,15 +23,4 @@ dependencies = [
     "setuptools",
     "py-multicodec",
     "pandas",
-    "nox",
-    "mock",
-    "pytest",
-    "flake8",
-    "flake8-docstrings",
-    "flake8-annotations",
-    "flake8-import-order",
-    "Faker",
-    "mkdocs",
-    "mkdocstrings",
-    "mkdocstrings-python"
 ]
