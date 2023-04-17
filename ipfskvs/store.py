@@ -1,4 +1,5 @@
 from __future__ import annotations
+__package__ = "ipfskvs"
 
 import errno
 import os

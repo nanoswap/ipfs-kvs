@@ -1,3 +1,4 @@
+__package__ = "ipfskvs"
 import json
 import os
 from dataclasses import dataclass

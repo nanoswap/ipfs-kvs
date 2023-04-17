@@ -6,7 +6,7 @@ show_missing = true
 
 [project]
 name = "ipfskvs"
-version = "0.0.6"
+version = "0.0.7"
 description = "IPFS python client"
 urls = {'Bug Tracker' = 'https://github.com/nanoswap/ipfskvs/issues'}
 classifiers = [

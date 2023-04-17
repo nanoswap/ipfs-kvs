@@ -20,6 +20,3 @@ plugins:
     handlers:
       python:
         paths: [.]  # actually not needed, default
-
-extra:
-    version: 0.0.5
