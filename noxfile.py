@@ -7,6 +7,10 @@ def build(session: nox.Session) -> None:
     session.env["PYTHONPATH"] = "src"
     session.run("python", "-m", "build")
 
+    # publish pip package
+    # session.install("twine")
+    # session.run("twine", "upload", "dist/*")
+
 
 @nox.session(python=["python3.11"])
 def tests(session: nox.Session) -> None:
