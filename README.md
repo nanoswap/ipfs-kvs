@@ -1,6 +1,6 @@
 # ipfs (interplanetary filesystem) kvs (key value store)
 
-Documentation: https://ipfskvs.readthedocs.io/
+Documentation: https://ipfs-kvs.readthedocs.io/
 
 ## Build docs
 `mkdocs serve`

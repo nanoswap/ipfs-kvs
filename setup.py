@@ -1,14 +1,16 @@
-from setuptools import setup, find_packages
+"""Setup."""
+from setuptools import find_packages, setup
 
 
 def load_long_description(filename: str) -> str:
+    """Convert README.md to a string."""
     with open(filename, "r", encoding="utf-8") as f:
         return f.read()
 
 
 setup(
     name="ipfskvs",
-    version="0.0.4",
+    version="0.0.5",
     author="Nathaniel Schultz",
     author_email="nate@nanoswap.finance",
     description="IPFS Key Value Store",
