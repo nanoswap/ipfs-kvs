@@ -23,7 +23,6 @@ setup(
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: The Unlicense (Unlicense)"
-
     ],
     package_dir={'ipfskvs': "ipfskvs"},
     packages=find_packages("ipfskvs"),
