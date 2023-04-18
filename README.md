@@ -1,5 +1,10 @@
 # ipfs (interplanetary filesystem) kvs (key value store)
 
+![](https://img.shields.io/readthedocs/ipfs-kvs?label=readthedocs)
+![](https://img.shields.io/github/actions/workflow/status/nanoswap/ipfskvs/test.yml?label=tests)
+![](https://img.shields.io/snyk/vulnerabilities/github/nanoswap/ipfskvs)
+![](https://img.shields.io/pypi/pyversions/ipfskvs)
+
 - [Installation](#installation)
 - [Documentation](#documentation)
   * [Build docs locally](#build-docs-locally)
