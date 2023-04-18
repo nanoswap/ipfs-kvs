@@ -2,8 +2,12 @@ from __future__ import annotations
 __package__ = "ipfskvs"
 
 import json
+import logging
 from typing import Dict, Self
 from uuid import UUID
+
+
+LOG = logging.getLogger(__name__)
 
 
 class Index():
@@ -99,9 +103,11 @@ class Index():
         """
         for key in self.index:
             if key not in other_index.index:
+                LOG.debug(f"{self} != {other_index} due to a missing key")
                 return False
 
             if str(self.index[key]) != str(other_index.index[key]):
+                LOG.debug(f"{self} != {other_index} due to a value mismatch")
                 return False
 
         return True
@@ -149,6 +155,7 @@ class Index():
 
         # If not all index keys are known, don't add it to the filename
         if self.is_partial():
+            LOG.debug(f"Skipping this index because it is partial: {self}")
             return result
 
         # Add current index

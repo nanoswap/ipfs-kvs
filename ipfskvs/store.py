@@ -2,6 +2,7 @@ from __future__ import annotations
 __package__ = "ipfskvs"
 
 import errno
+import logging
 import os
 from dataclasses import dataclass
 from types import FunctionType
@@ -13,6 +14,8 @@ from ipfskvs.index import Index
 from ipfskvs.ipfs import Ipfs
 
 import pandas as pd
+
+LOG = logging.getLogger(__name__)
 
 
 @dataclass
@@ -137,6 +140,7 @@ class Store():
                 not found on IPFS.
         """
         filename = self.index.get_filename()
+        LOG.info(f"Reading {filename}")
         result = self.ipfs.read(filename)
         if not result:
             raise FileNotFoundError(
@@ -145,6 +149,7 @@ class Store():
                 filename
             )
 
+        LOG.debug(result)
         self.reader.ParseFromString(result)
 
     def write(self: Self) -> None:
@@ -157,14 +162,16 @@ class Store():
 
     def add(self: Self) -> None:
         """Add the protobuf data from `self.writer` to IPFS."""
-        self.ipfs.add(
-            self.index.get_filename(),
-            self.writer.SerializeToString()
-        )
+        filename = self.index.get_filename()
+        data = self.writer.SerializeToString()
+        LOG.info(f"Adding {data} to {filename}")
+        self.ipfs.add(filename, data)
 
     def delete(self: Self) -> None:
         """Only needed for local testing."""
-        self.ipfs.delete(self.index.get_filename())
+        filename = self.index.get_filename()
+        LOG.info(f"Deleting file: {filename}")
+        self.ipfs.delete(filename)
 
     @staticmethod
     def to_dataframe(
@@ -192,8 +199,10 @@ class Store():
 
             # add metadata
             metadata = store.index.get_metadata()
+            LOG.debug(f"Found metadata: {metadata}")
             for key in metadata:
                 if key not in pandas_input:
+                    LOG.debug(f"Found key: {key}")
                     pandas_input[key] = []
 
                 pandas_input[key].append(metadata[key])
@@ -203,7 +212,9 @@ class Store():
                 if key not in pandas_input:
                     pandas_input[key] = []
 
-                pandas_input[key].append(protobuf_parsers[key](store))
+                parsed_data = protobuf_parsers[key](store)
+                LOG.debug(f"Parsed {parsed_data} for {key} from {store}")
+                pandas_input[key].append(parsed_data)
 
         # load the data into a pandas dataframe
         return pd.DataFrame.from_dict(pandas_input)
@@ -236,11 +247,13 @@ class Store():
 
             # filter filenames based on the index
             full_filename = f"{path}/{filename}".replace("//", "/")
+            LOG.debug(f"Current filename: {full_filename}")
             from_index = Index.from_filename(
                 filename=full_filename,
                 has_prefix=query_index.prefix
             )
             if query_index.matches(from_index):
+                LOG.debug(f"Matched {from_index} with {query_index}")
                 result += Store.query_indexes(from_index, ipfs)
 
         return result

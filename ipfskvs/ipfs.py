@@ -1,5 +1,6 @@
 __package__ = "ipfskvs"
 import json
+import logging
 import os
 from dataclasses import dataclass
 from typing import List, Self
@@ -12,6 +13,7 @@ import requests
 
 
 IPFS_HOME = "/data"
+LOG = logging.getLogger(__name__)
 
 
 @dataclass
@@ -78,9 +80,12 @@ class Ipfs():
             bytes: The http response data
         """
         url = f"{self.host}:{self.port}/api/{self.version}/{endpoint}"
+        LOG.info(f"HTTP POST; url: {url} params: {params} files: {files}")
         response = requests.post(url, params=params, files=files)
         if raise_for_status:
             response.raise_for_status()
+
+        LOG.debug(response.content)
         return response.content
 
     def _dag_put(self: Self, data: bytes) -> str:
@@ -110,7 +115,7 @@ class Ipfs():
             result = json.loads(response.decode())
             return result["Cid"]["/"]
         except Exception as e:
-            print(e)
+            LOG.error(e)
             raise RuntimeError(e.response._content.decode()) from e
 
     def _dag_get(self: Self, filename: str) -> str:
@@ -136,7 +141,7 @@ class Ipfs():
             )
             return json.loads(response.decode())
         except Exception as e:
-            print(e)
+            LOG.error(e)
             raise RuntimeError(e.response._content.decode()) from e
 
     def mkdir(self: Self, directory_name: str, with_home: bool = True) -> None:
@@ -165,7 +170,7 @@ class Ipfs():
                 raise_for_status=False
             )
         except Exception as e:
-            print(e)
+            LOG.error(e)
             raise RuntimeError(e.response._content.decode()) from e
 
     def read(self: Self, filename: str) -> bytes:
@@ -183,7 +188,7 @@ class Ipfs():
                 params={"arg": f"{IPFS_HOME}/{filename}"},
             )
         except Exception as e:
-            print(e)
+            LOG.error(e)
             raise RuntimeError(e.response._content.decode()) from e
 
     def write(self: Self, filename: str, data: bytes) -> None:
@@ -248,7 +253,7 @@ class Ipfs():
                 }
             )
         except Exception as e:
-            print(e)
+            LOG.error(e)
             raise RuntimeError(e.response._content.decode()) from e
 
     def does_file_exist(self: Self, filename: str) -> bool:
@@ -268,7 +273,7 @@ class Ipfs():
             )
             return 'file does not exist' not in response.decode()
         except Exception as e:
-            print(e)
+            LOG.error(e)
             if 'file does not exist' in e.response._content.decode():
                 return False
 
@@ -290,7 +295,7 @@ class Ipfs():
                 raise_for_status=False
             ))
         except Exception as e:
-            print(e)
+            LOG.error(e)
             raise RuntimeError(e.response._content.decode()) from e
 
     def list_files(self: Self, prefix: str = "") -> List[str]:
@@ -309,7 +314,7 @@ class Ipfs():
                 raise_for_status=False
             ))
         except Exception as e:
-            print(e)
+            LOG.error(e)
             raise RuntimeError(e.response._content.decode()) from e
 
     def delete(self: Self, filename: str) -> None:
@@ -328,5 +333,5 @@ class Ipfs():
                 raise_for_status=False
             )
         except Exception as e:
-            print(e)
+            LOG.error(e)
             raise RuntimeError(e.response._content.decode()) from e
