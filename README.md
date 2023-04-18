@@ -1,5 +1,20 @@
 # ipfs (interplanetary filesystem) kvs (key value store)
 
+![](https://img.shields.io/readthedocs/ipfs-kvs?label=readthedocs)
+![](https://img.shields.io/github/actions/workflow/status/nanoswap/ipfskvs/test.yml?label=tests)
+![](https://img.shields.io/snyk/vulnerabilities/github/nanoswap/ipfskvs)
+![](https://img.shields.io/pypi/pyversions/ipfskvs)
+
+- [Installation](#installation)
+- [Documentation](#documentation)
+  * [Build docs locally](#build-docs-locally)
+- [Tests](#tests)
+  * [Before running tests:](#before-running-tests-)
+    + [Regenerate pb2.py files](#regenerate-pb2py-files)
+    + [Ipfs setup](#ipfs-setup)
+    + [Run the ipfs daemon](#run-the-ipfs-daemon)
+- [IPFS troubleshooting](#ipfs-troubleshooting)
+
 ## Installation
 
 ```
@@ -19,15 +34,16 @@ To run all checks: `nox`
 
 ### Before running tests:
 
- - Regenerate pb2.py files:  
+#### Regenerate pb2.py files 
 ```
 cd protobuf;
 protoc --python_out=../proto --proto_path=protobuf protobuf/sample.proto
 ```
 
- - Ipfs setup: https://docs.ipfs.tech/install/  
+#### Ipfs setup
+https://docs.ipfs.tech/install/  
 
- - Run the ipfs daemon:
+#### Run the ipfs daemon
 ```
 ipfs daemon --api /ip4/0.0.0.0/tcp/5001
 ```

@@ -10,7 +10,7 @@ def load_long_description(filename: str) -> str:
 
 setup(
     name="ipfskvs",
-    version="0.0.9",
+    version="0.0.10",
     author="Nathaniel Schultz",
     author_email="nate@nanoswap.finance",
     description="IPFS Key Value Store",
@@ -23,7 +23,6 @@ setup(
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: The Unlicense (Unlicense)"
-
     ],
     package_dir={'ipfskvs': "ipfskvs"},
     packages=find_packages("ipfskvs"),
