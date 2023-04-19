@@ -1,5 +1,21 @@
 requests
-protobuf
+protobuf==4.22.3
 setuptools
 py-multicodec
 pandas
+ipfsclient==0.0.7
+
+# for tests and linting
+nox
+mock
+pytest
+flake8
+flake8-docstrings
+flake8-annotations
+flake8-import-order
+Faker
+
+# for documentation / mkdocs
+mkdocs
+mkdocstrings
+mkdocstrings-python

@@ -1,6 +1,8 @@
 """Setup."""
 from setuptools import find_packages, setup
 
+from ipfskvs import __version__
+
 
 def load_long_description(filename: str) -> str:
     """Convert README.md to a string."""
@@ -10,7 +12,7 @@ def load_long_description(filename: str) -> str:
 
 setup(
     name="ipfskvs",
-    version="0.0.10",
+    version=__version__,
     author="Nathaniel Schultz",
     author_email="nate@nanoswap.finance",
     description="IPFS Key Value Store",
@@ -25,6 +27,6 @@ setup(
         "License :: OSI Approved :: The Unlicense (Unlicense)"
     ],
     package_dir={'ipfskvs': "ipfskvs"},
-    packages=find_packages("ipfskvs"),
+    packages=find_packages(exclude=['tests', 'tests.*']),
     python_requires=">=3.11"
 )
