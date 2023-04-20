@@ -1,5 +1,6 @@
 requests
 protobuf==4.22.3
+google
 setuptools
 py-multicodec
 pandas
