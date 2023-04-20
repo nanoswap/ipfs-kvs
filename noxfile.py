@@ -1,12 +1,21 @@
+import shutil
+from pathlib import Path
+
 import nox
+
+DIR = Path(__file__).parent.resolve()
 
 
 @nox.session(python=["python3.11"])
 def build(session: nox.Session) -> None:
     """Build the dist."""
-    session.install("build")
-    session.env["PYTHONPATH"] = "ipfskvs"
-    session.run("python", "-m", "build")
+
+    dist_p = DIR.joinpath("dist")
+    if dist_p.exists():
+        shutil.rmtree(dist_p)
+
+    session.install("poetry")
+    session.run("poetry", "build")
 
     # publish pip package
     # session.install("twine")
@@ -17,7 +26,6 @@ def build(session: nox.Session) -> None:
 def tests(session: nox.Session) -> None:
     """Run the tests."""
     session.install("-r", "requirements.txt")
-    session.install("-r", "requirements-dev.txt")
     session.install('pytest')
     session.install("pytest-cov")
     session.env["PYTHONPATH"] = "ipfskvs"
@@ -28,7 +36,7 @@ def tests(session: nox.Session) -> None:
 def lint(session: nox.Session) -> None:
     """Run the linter checks."""
     session.install('flake8')
-    session.install("-r", "requirements-dev.txt")
+    session.install("-r", "requirements.txt")
 
     # lint the source code
     session.run(

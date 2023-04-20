@@ -5,7 +5,6 @@ edit_uri: blob/main/docs/
 nav:
   - Home: 'index.md'
   - Classes:
-      - 'Ipfs': 'classes_ipfs.md'
       - 'Store': 'classes_store.md'
       - 'Index': 'classes_index.md'
   - About:

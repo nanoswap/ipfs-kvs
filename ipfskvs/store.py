@@ -10,8 +10,9 @@ from typing import Dict, Iterator, List, Self
 
 from google.protobuf.message import Message
 
+from ipfsclient.ipfs import Ipfs
+
 from ipfskvs.index import Index
-from ipfskvs.ipfs import Ipfs
 
 import pandas as pd
 

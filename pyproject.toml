@@ -1,26 +1,20 @@
-[tool.coverage.paths]
-source = ["ipfskvs", "*/site-packages"]
-
-[tool.coverage.report]
-show_missing = true
-
-[project]
+[tool.poetry]
 name = "ipfskvs"
-version = "0.0.10"
-description = "IPFS python client"
-urls = {'Bug Tracker' = 'https://github.com/nanoswap/ipfskvs/issues'}
-classifiers = [
-    'Programming Language :: Python :: 3',
-    'License :: OSI Approved :: The Unlicense (Unlicense)'
-]
-authors = [{'name' = 'Nathaniel Schultz', 'email' = 'nate@nanoswap.finance'}]
-requires-python = '>=3.11'
-readme = 'README.md'
-license = {'file' = 'LICENSE'}
-dependencies = [
-    "requests",
-    "protobuf",
-    "setuptools",
-    "py-multicodec",
-    "pandas",
-]
+version = "0.1.0"
+description = "IPFS Key Value Store"
+authors = ["Nate Schultz <nate.schultz@outlook.com>"]
+readme = "README.md"
+packages = [{include = "ipfskvs"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+protobuf = "^4.22.3"
+ipfsclient = "^0.0.7"
+pandas = "^2.0.0"
+py-multicodec = "^0.2.1"
+requests = "^2.28.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

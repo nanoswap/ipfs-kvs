@@ -6,8 +6,9 @@ from typing import Self
 
 from faker import Faker
 
+from ipfsclient.ipfs import Ipfs
+
 from ipfskvs.index import Index
-from ipfskvs.ipfs import Ipfs
 from ipfskvs.store import Store
 
 from protobuf.sample_pb2 import Example, Type
