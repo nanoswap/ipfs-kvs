@@ -4,7 +4,6 @@ __package__ = "ipfskvs"
 import errno
 import logging
 import os
-import time
 from dataclasses import dataclass
 from types import FunctionType
 from typing import Dict, Iterator, List, Self
