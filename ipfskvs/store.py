@@ -4,6 +4,7 @@ __package__ = "ipfskvs"
 import errno
 import logging
 import os
+import time
 from dataclasses import dataclass
 from types import FunctionType
 from typing import Dict, Iterator, List, Self
@@ -237,7 +238,11 @@ class Store():
         # list the files in the directory
         path = query_index.get_filename()
         response = ipfs.list_files(path)
-        filenames = [file['Name'] for file in response['Entries']]
+
+        filenames = [
+            file['Name'] for file in response['Entries']
+        ] if 'Entries' in response else []
+
         for filename in filenames:
             # Listing the same file twice indicates the base case
             #   ex:

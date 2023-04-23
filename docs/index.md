@@ -104,5 +104,8 @@ Ex: get all deals with designer id "123"
 
     reader = Deal()
     query_results = Store.query(query_index, ipfs, reader)
-    print(Store.to_dataframe(query_results))
+    print(Store.to_dataframe(query_results, protobuf_parsers={
+        "content": lambda store: store.reader.content,
+        "type": lambda store: store.reader.type,
+    }))
 ```
