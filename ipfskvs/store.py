@@ -237,11 +237,12 @@ class Store():
         # list the files in the directory
         path = query_index.get_filename()
         response = ipfs.list_files(path)
+        LOG.debug("ipfs.list_files(%s): %s", path, response)
 
         filenames = [
             file['Name'] for file in response['Entries']
-        ] if response and 'Entries' in response else []
-        LOG.debug("ipfs.list_files(%s): %s", path, response)
+        ] if response and 'Entries' in response and response['Entries'] else []
+        LOG.debug("ipfs.list_files filenames: %s", filenames)
 
         for filename in filenames:
             # Listing the same file twice indicates the base case
