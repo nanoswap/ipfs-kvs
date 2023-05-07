@@ -240,7 +240,8 @@ class Store():
 
         filenames = [
             file['Name'] for file in response['Entries']
-        ] if 'Entries' in response else []
+        ] if response and 'Entries' in response else []
+        LOG.debug("ipfs.list_files(%s): %s", path, response)
 
         for filename in filenames:
             # Listing the same file twice indicates the base case
