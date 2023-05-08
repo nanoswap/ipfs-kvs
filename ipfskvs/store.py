@@ -285,6 +285,7 @@ class Store():
             Iterator[Store]: The list of matching Store objects with
                 file content loaded into the `reader` attribute
         """
+        LOG.debug("query index: %s", query_index.to_dict())
         for response_index in Store.query_indexes(query_index, ipfs):
             reader = type(reader)()
             store = Store(index=response_index, reader=reader, ipfs=ipfs)
