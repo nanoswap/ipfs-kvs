@@ -286,6 +286,7 @@ class Store():
                 file content loaded into the `reader` attribute
         """
         for response_index in Store.query_indexes(query_index, ipfs):
+            reader = type(reader)()
             store = Store(index=response_index, reader=reader, ipfs=ipfs)
             store.read()
             yield store
