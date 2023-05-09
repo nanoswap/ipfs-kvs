@@ -290,4 +290,5 @@ class Store():
             reader = type(reader)()
             store = Store(index=response_index, reader=reader, ipfs=ipfs)
             store.read()
+            LOG.debug("query result yield: %s", store)
             yield store
