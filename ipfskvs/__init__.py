@@ -1,6 +1,6 @@
 # flake8: noqa
 __package__ = "ipfskvs"
-__version__ = "0.1.6"
+__version__ = "0.1.7"
 
 from ipfskvs import index
 from ipfskvs import store

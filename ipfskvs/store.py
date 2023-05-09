@@ -206,7 +206,11 @@ class Store():
                     LOG.debug(f"Found key: {key}")
                     pandas_input[key] = []
 
-                pandas_input[key].append(metadata[key])
+                # Check if the metadata is a list and extend pandas_input[key]
+                if isinstance(metadata[key], list):
+                    pandas_input[key].extend(metadata[key])
+                else:
+                    pandas_input[key].append(metadata[key])
 
             # add top level data from the reader
             for key in protobuf_parsers:

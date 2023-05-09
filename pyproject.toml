@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ipfskvs"
-version = "0.1.6"
+version = "0.1.7"
 description = "IPFS Key Value Store"
 authors = ["Nate Schultz <nate.schultz@outlook.com>"]
 readme = "README.md"
