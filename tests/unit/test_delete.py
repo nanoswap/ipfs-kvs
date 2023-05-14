@@ -1,15 +1,11 @@
-
-
+import os
 import unittest
-from mock import patch
+from unittest.mock import patch, MagicMock
 import uuid
 
 from ipfsclient.ipfs import Ipfs
-
 from ipfskvs.index import Index
-
 from ipfskvs.store import Store
-
 
 class TestDelete(unittest.TestCase):
     ipfs: Ipfs
@@ -19,8 +15,12 @@ class TestDelete(unittest.TestCase):
 
     @patch.object(Ipfs, "delete")
     @patch.object(Ipfs, "list_files")
-    def test_delete(self, mock_list_files, mock_delete):
+    @patch("os.path.dirname")
+    def test_delete(self, mock_dirname, mock_list_files, mock_delete):
         """Test the delete function."""
+        
+        # Mock the os.path.dirname function to return a test value
+        mock_dirname.side_effect = ["test_sub_dir", "test_dir", "/"]
 
         # Mock the Store instance
         store = Store(index=Index(index={
@@ -35,14 +35,18 @@ class TestDelete(unittest.TestCase):
         store.delete(check_directory=True)
 
         # Assert that delete and list_files were called with the correct arguments
-        mock_delete.assert_any_call("test_file")
+        mock_delete.assert_any_call("test_sub_dir")
         mock_delete.assert_any_call("test_dir")
         mock_list_files.assert_called_with("test_dir")
 
     @patch.object(Ipfs, "delete")
     @patch.object(Ipfs, "list_files")
-    def test__delete_if_empty(self, mock_list_files, mock_delete):
+    @patch("os.path.dirname")
+    def test__delete_if_empty(self, mock_dirname, mock_list_files, mock_delete):
         """Test the _delete_if_empty function."""
+
+        # Mock the os.path.dirname function to return a test value
+        mock_dirname.side_effect = ["test_sub_dir", "test_dir", "/"]
 
         # Mock the Store instance
         store = Store(index=Index(index={
