@@ -1,13 +1,12 @@
 """Tests for the Store.delete method."""
+import time
 import unittest
+import uuid
 
 from ipfsclient.ipfs import Ipfs
 
 from ipfskvs.index import Index
 from ipfskvs.store import Store
-
-import time
-import uuid
 
 from protobuf.sample_pb2 import Example, Type
 
@@ -50,7 +49,6 @@ class TestDelete(unittest.TestCase):
 
     def test_delete(self: unittest.TestCase) -> None:
         """Test the delete function."""
-
         writer_store = self._generate_writer_store()
         reader_store_1 = self._generate_reader_store()
         reader_store_2 = self._generate_reader_store()
@@ -69,13 +67,12 @@ class TestDelete(unittest.TestCase):
         try:
             reader_store_2.read()
         except RuntimeError as e:
-            self.assertEqual(str(e), '{"Message":"file does not exist","Code":0,"Type":"error"}\n')
+            self.assertEqual(str(e), '{"Message":"file does not exist","Code":0,"Type":"error"}\n')  # noqa: E501
         else:
             self.fail("RuntimeError not raised")
 
     def test_delete_directories(self: unittest.TestCase) -> None:
         """Test the delete function on directories."""
-
         writer_store = self._generate_writer_store()
         reader_store_1 = self._generate_reader_store()
         reader_store_2 = self._generate_reader_store()
@@ -94,11 +91,11 @@ class TestDelete(unittest.TestCase):
         try:
             reader_store_2.read()
         except RuntimeError as e:
-            self.assertEqual(str(e), '{"Message":"file does not exist","Code":0,"Type":"error"}\n')
+            self.assertEqual(str(e), '{"Message":"file does not exist","Code":0,"Type":"error"}\n')  # noqa: E501
         else:
             self.fail("RuntimeError not raised")
 
         # Check that the directory no longer exists
         directory = self.index.get_directory()
         result = self.ipfs.stat(directory)
-        self.assertEqual(result, {'Message': 'file does not exist', 'Code': 0, 'Type': 'error'})
+        self.assertEqual(result, {'Message': 'file does not exist', 'Code': 0, 'Type': 'error'})  # noqa: E501

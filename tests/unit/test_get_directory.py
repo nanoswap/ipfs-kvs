@@ -1,6 +1,7 @@
 """Test the index.get_directory function."""
 
 import unittest
+from typing import Self
 
 from ipfsclient.ipfs import Ipfs
 
@@ -13,7 +14,7 @@ from protobuf.sample_pb2 import Example, Type
 class TestGetDirectory(unittest.TestCase):
     """Test class for get_directory functionality."""
 
-    def setUp(self) -> None:
+    def setUp(self: Self) -> None:
         """Set up the test."""
         self.ipfs = Ipfs()
         self.data = Example(type=Type.BUZZ, content="fizz")
@@ -30,9 +31,8 @@ class TestGetDirectory(unittest.TestCase):
             )
         )
 
-    def test_get_directory(self) -> None:
+    def test_get_directory(self: Self) -> None:
         """Test the get_directory function."""
-
         store = Store(
             index=self.index,
             ipfs=self.ipfs,
