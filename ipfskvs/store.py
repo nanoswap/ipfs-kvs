@@ -161,7 +161,7 @@ class Store():
         LOG.info(f"Adding {data} to {filename}")
         self.ipfs.add(filename, data)
 
-    def delete(self: 'Self', check_directory: bool = False) -> None:
+    def delete(self: Self, check_directory: bool = False) -> None:
         """Only needed for local testing."""
         # delete the file from ipfs
         filename = self.index.get_filename()
@@ -174,7 +174,7 @@ class Store():
             directory = self.index.get_directory()
             self._delete_if_empty(directory)
 
-    def _delete_if_empty(self: 'Self', directory: str) -> None:
+    def _delete_if_empty(self: Self, directory: str) -> None:
         """Recursively delete empty directories."""
         # get the files in the directory
         files = self.ipfs.list_files(directory)
