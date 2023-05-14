@@ -73,39 +73,32 @@ class TestDelete(unittest.TestCase):
         else:
             self.fail("RuntimeError not raised")
 
-    # def test_delete_directories(self: unittest.TestCase) -> None:
-    #     """Test the delete function on directories."""
+    def test_delete_directories(self: unittest.TestCase) -> None:
+        """Test the delete function on directories."""
 
-    #     writer_store = self._generate_writer_store()
-    #     reader_store_1 = self._generate_reader_store()
-    #     reader_store_2 = self._generate_reader_store()
+        writer_store = self._generate_writer_store()
+        reader_store_1 = self._generate_reader_store()
+        reader_store_2 = self._generate_reader_store()
 
-    #     # Write it to IPFS
-    #     writer_store.add()
+        # Write it to IPFS
+        writer_store.add()
 
-    #     # Check that it exists
-    #     reader_store_1.read()
-    #     self.assertEqual(reader_store_1.reader, self.data)
+        # Check that it exists
+        reader_store_1.read()
+        self.assertEqual(reader_store_1.reader, self.data)
 
-    #     # Delete it
-    #     writer_store.delete(check_directory=True)
+        # Delete it
+        writer_store.delete(check_directory=True)
 
-    #     # Check that it no longer exists
-    #     try:
-    #         reader_store_2.read()
-    #     except RuntimeError as e:
-    #         self.assertEqual(str(e), '{"Message":"file does not exist","Code":0,"Type":"error"}\n')
-    #     else:
-    #         self.fail("RuntimeError not raised")
+        # Check that it no longer exists
+        try:
+            reader_store_2.read()
+        except RuntimeError as e:
+            self.assertEqual(str(e), '{"Message":"file does not exist","Code":0,"Type":"error"}\n')
+        else:
+            self.fail("RuntimeError not raised")
 
-    #     # Check that the directory no longer exists
-    #     try:
-    #         directory = self.index.get_directory()
-    #         result = self.ipfs.stat(directory)
-    #         print(result)
-    #     except RuntimeError as e:
-    #         print(str(e))
-    #         self.fail("RuntimeError not raised")
-    #         # self.assertEqual(str(e), '{"Message":"file does not exist","Code":0,"Type":"error"}\n')
-    #     else:
-    #         self.fail("RuntimeError not raised")
+        # Check that the directory no longer exists
+        directory = self.index.get_directory()
+        result = self.ipfs.stat(directory)
+        self.assertEqual(result, {'Message': 'file does not exist', 'Code': 0, 'Type': 'error'})

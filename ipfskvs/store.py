@@ -180,7 +180,7 @@ class Store():
         files = self.ipfs.list_files(directory)
 
         # if there are no files, delete the directory
-        if not files:
+        if files == [] or files == {"Entries": None}:
             self.ipfs.delete(directory)
 
             # Get the parent directory
