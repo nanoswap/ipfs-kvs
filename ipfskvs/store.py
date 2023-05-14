@@ -154,14 +154,6 @@ class Store():
         self.reader = type(self.reader)()
         self.reader.ParseFromString(result)
 
-    def write(self: Self) -> None:
-        """Write the protobuf data from `self.writer` to IPFS."""
-        raise NotImplementedError("For now, just use `add` and `delete`")
-        self.ipfs.write(
-            self.index.get_filename(),
-            self.writer.SerializeToString()
-        )
-
     def add(self: Self) -> None:
         """Add the protobuf data from `self.writer` to IPFS."""
         filename = self.index.get_filename()
@@ -198,28 +190,22 @@ class Store():
         """
         pandas_input = {}
         for store in data:
-
-            # add metadata
             metadata = store.index.get_metadata()
-            LOG.debug(f"Found metadata: {metadata}")
             for key in metadata:
                 if key not in pandas_input:
-                    LOG.debug(f"Found key: {key}")
                     pandas_input[key] = []
-
                 pandas_input[key].append(metadata[key])
 
-            # add top level data from the reader
             for key in protobuf_parsers:
                 if key not in pandas_input:
                     pandas_input[key] = []
-
                 parsed_data = protobuf_parsers[key](store)
-                LOG.debug(f"Parsed {parsed_data} for {key} from {store}")
                 pandas_input[key].append(parsed_data)
 
-        # load the data into a pandas dataframe
-        return pd.DataFrame.from_dict(pandas_input)
+        # Transpose the data before creating the DataFrame
+        pandas_input = {key: value for key, value in pandas_input.items()}
+        return pd.DataFrame(pandas_input)
+
 
     @staticmethod
     def query_indexes(query_index: Index, ipfs: Ipfs) -> List[Index]:
