@@ -10,7 +10,7 @@ from typing import Dict, Iterator, List, Self
 
 from google.protobuf.message import Message
 
-from ipfsclient.ipfs import Ipfs
+from ipfsclient.ipfs import IPFS_HOME, Ipfs
 
 from ipfskvs.index import Index
 
@@ -176,19 +176,22 @@ class Store():
 
     def _delete_if_empty(self: Self, directory: str) -> None:
         """Recursively delete empty directories."""
-        # get the files in the directory
+        # Get the files in the directory
         files = self.ipfs.list_files(directory)
 
-        # if there are no files, delete the directory
+        # If there are no files, delete the directory
         if files == [] or files == {"Entries": None}:
+
+            # Base case, root directory found
+            if directory == IPFS_HOME:
+                return
+
+            # Delete the directory
             self.ipfs.delete(directory)
 
-            # Get the parent directory
+            # Get the parent directory and recurse
             parent_directory = os.path.dirname(directory)
-
-            # If parent directory is not root, check and delete if empty
-            if parent_directory != '/':
-                self._delete_if_empty(parent_directory)
+            self._delete_if_empty(parent_directory)
 
     @staticmethod
     def to_dataframe(

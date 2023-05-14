@@ -26,16 +26,21 @@ class TestDelete(unittest.TestCase):
             mock_list_files: unittest.mock,
             mock_dirname: unittest.mock) -> None:
         """Test the delete function."""
-        mock_dirname.side_effect = ["/test_dir/test_sub_dir", "/test_dir", "/"]
+        mock_dirname.side_effect = [
+            "/data/test_dir/test_sub_dir",
+            "/data/test_dir",
+            "/data"
+        ]
         store = Store(index=Index(index={
             "testindex1": str(uuid.uuid4()),
             "testindex2": str(uuid.uuid4())
         }), ipfs=self.ipfs)
         mock_list_files.return_value = []
         store.delete(check_directory=True)
-        mock_delete.assert_any_call("/test_dir/test_sub_dir")
-        mock_delete.assert_any_call("/test_dir")
-        mock_list_files.assert_called_with("/test_dir")
+
+        mock_delete.assert_any_call("/data/test_dir/test_sub_dir")
+        mock_delete.assert_any_call("/data/test_dir")
+        mock_list_files.assert_called_with("/data")
 
     @patch("os.path.dirname")
     @patch.object(Ipfs, "list_files")
@@ -46,12 +51,17 @@ class TestDelete(unittest.TestCase):
             mock_list_files: unittest.mock,
             mock_dirname: unittest.mock) -> None:
         """Test the _delete_if_empty function."""
-        mock_dirname.side_effect = ["/test_dir/test_sub_dir", "/test_dir", "/"]
+        mock_dirname.side_effect = [
+            "/data/test_dir/test_sub_dir",
+            "/data/test_dir",
+            "/data"
+        ]
         store = Store(index=Index(index={
             "testindex1": str(uuid.uuid4()),
             "testindex2": str(uuid.uuid4())
         }), ipfs=self.ipfs)
         mock_list_files.return_value = []
         store._delete_if_empty("test_dir")
-        mock_delete.assert_called_with("/test_dir")
-        mock_list_files.assert_called_with("/test_dir")
+
+        mock_delete.assert_called_with("/data/test_dir")
+        mock_list_files.assert_called_with("/data")
