@@ -206,7 +206,6 @@ class Store():
         pandas_input = {key: value for key, value in pandas_input.items()}
         return pd.DataFrame(pandas_input)
 
-
     @staticmethod
     def query_indexes(query_index: Index, ipfs: Ipfs) -> List[Index]:
         """Query ipfs based on the `query_index` param.
