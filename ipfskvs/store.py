@@ -163,7 +163,6 @@ class Store():
 
     def delete(self: 'Self', check_directory: bool = False) -> None:
         """Only needed for local testing."""
-
         # delete the file from ipfs
         filename = self.index.get_filename()
         LOG.info(f"Deleting file: {filename}")
@@ -176,8 +175,7 @@ class Store():
             self._delete_if_empty(directory)
 
     def _delete_if_empty(self: 'Self', directory: str) -> None:
-        """Recursively delete empty directories"""
-
+        """Recursively delete empty directories."""
         # get the files in the directory
         files = self.ipfs.list_files(directory)
 
