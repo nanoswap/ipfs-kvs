@@ -20,7 +20,7 @@ class TestDelete(unittest.TestCase):
         """Test the delete function."""
         
         # Mock the os.path.dirname function to return a test value
-        mock_dirname.side_effect = ["test_sub_dir", "test_dir", "/"]
+        mock_dirname.side_effect = ["/test_dir/test_sub_dir", "/test_dir", "/"]
 
         # Mock the Store instance
         store = Store(index=Index(index={
@@ -35,9 +35,9 @@ class TestDelete(unittest.TestCase):
         store.delete(check_directory=True)
 
         # Assert that delete and list_files were called with the correct arguments
-        mock_delete.assert_any_call("test_sub_dir")
-        mock_delete.assert_any_call("test_dir")
-        mock_list_files.assert_called_with("test_dir")
+        mock_delete.assert_any_call("/test_dir/test_sub_dir")
+        mock_delete.assert_any_call("/test_dir")
+        mock_list_files.assert_called_with("/test_dir")
 
     @patch.object(Ipfs, "delete")
     @patch.object(Ipfs, "list_files")
@@ -46,7 +46,7 @@ class TestDelete(unittest.TestCase):
         """Test the _delete_if_empty function."""
 
         # Mock the os.path.dirname function to return a test value
-        mock_dirname.side_effect = ["test_sub_dir", "test_dir", "/"]
+        mock_dirname.side_effect = ["/test_dir/test_sub_dir", "/test_dir", "/"]
 
         # Mock the Store instance
         store = Store(index=Index(index={
@@ -61,5 +61,5 @@ class TestDelete(unittest.TestCase):
         store._delete_if_empty("test_dir")
 
         # Assert that delete and list_files were called with the correct arguments
-        mock_delete.assert_called_with("test_dir")
-        mock_list_files.assert_called_with("test_dir")
+        mock_delete.assert_called_with("/test_dir")
+        mock_list_files.assert_called_with("/test_dir")

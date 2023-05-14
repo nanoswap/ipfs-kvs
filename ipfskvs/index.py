@@ -172,7 +172,7 @@ class Index():
 
     def get_directory(self: Self) -> str:
         """Get the directory for this index."""
-        return self.get_filename().split("/")[:-1]
+        return "/".join(self.get_filename().split("/")[:-1])
 
     @staticmethod
     def from_filename(filename: str, has_prefix: bool = False) -> Index:
