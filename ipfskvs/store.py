@@ -161,7 +161,7 @@ class Store():
         LOG.info(f"Adding {data} to {filename}")
         self.ipfs.add(filename, data)
 
-    def delete(self: Self, check_directory: bool = False) -> None:
+    def delete(self: 'Self', check_directory: bool = False) -> None:
         """Only needed for local testing."""
 
         # delete the file from ipfs
@@ -171,11 +171,12 @@ class Store():
 
         # check if the directory is empty
         # if so, delete the directory
-        if not check_directory:
-            return
+        if check_directory:
+            directory = self.index.get_directory()
+            self._delete_if_empty(directory)
 
-        # get the directory
-        directory = self.index.get_directory()
+    def _delete_if_empty(self: 'Self', directory: str) -> None:
+        """Recursively delete empty directories"""
 
         # get the files in the directory
         files = self.ipfs.list_files(directory)
@@ -183,6 +184,13 @@ class Store():
         # if there are no files, delete the directory
         if not files:
             self.ipfs.delete(directory)
+
+            # Get the parent directory
+            parent_directory = os.path.dirname(directory)
+
+            # If parent directory is not root, check and delete if empty
+            if parent_directory != '/':
+                self._delete_if_empty(parent_directory)
 
     @staticmethod
     def to_dataframe(
