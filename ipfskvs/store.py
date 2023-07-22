@@ -215,22 +215,29 @@ class Store():
                 reformatted into a dataframe
         """
         pandas_input = {}
+        LOG.debug("Converting stores to a dataframe")
         for store in data:
             metadata = store.index.get_metadata()
+            LOG.debug(f"Adding metadata to dataframe: {metadata.keys()}")
             for key in metadata:
+                LOG.debug(f"Adding {key} --> {metadata[key]} to dataframe")
                 if key not in pandas_input:
                     pandas_input[key] = []
                 pandas_input[key].append(metadata[key])
 
+            LOG.debug(f"Adding data to dataframe:{protobuf_parsers.keys()}")
             for key in protobuf_parsers:
                 if key not in pandas_input:
                     pandas_input[key] = []
                 parsed_data = protobuf_parsers[key](store)
+                LOG.debug(f"Adding {key} --> {parsed_data} to dataframe")
                 pandas_input[key].append(parsed_data)
 
         # Transpose the data before creating the DataFrame
         pandas_input = {key: value for key, value in pandas_input.items()}
-        return pd.DataFrame(pandas_input)
+        df = pd.DataFrame(pandas_input)
+        LOG.debug(f"Dataframe: {df.head()}")
+        return df
 
     @staticmethod
     def query_indexes(query_index: Index, ipfs: Ipfs) -> List[Index]:
