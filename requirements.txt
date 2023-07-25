@@ -4,7 +4,7 @@ google
 setuptools
 py-multicodec
 pandas
-ipfsclient
+ipfsclient>=0.1.1
 
 # for tests and linting
 nox
